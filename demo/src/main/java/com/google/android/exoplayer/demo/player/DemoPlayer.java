@@ -40,6 +40,7 @@ import com.google.android.exoplayer.upstream.BandwidthMeter;
 import com.google.android.exoplayer.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer.util.DebugTextViewHelper;
 import com.google.android.exoplayer.util.PlayerControl;
+import com.google.android.exoplayer.util.SystemClock;
 
 import android.media.MediaCodec.CryptoException;
 import android.os.Handler;
@@ -584,15 +585,18 @@ public class DemoPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
 
   private void pushSurface(boolean blockForSurfacePush) {
     if (videoRenderer == null) {
+      System.out.println("pushSurface(), but videoRenderer is null");
       return;
     }
 
     if (blockForSurfacePush) {
       player.blockingSendMessage(
           videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
+      System.out.println("pushSurface(), blockingSendmessage ()");
     } else {
       player.sendMessage(
           videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
+      System.out.println("pushSurface(), sendMessage()");
     }
   }
 
